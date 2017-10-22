@@ -1,12 +1,13 @@
 package debug;
 
 
-public class DebugLogger {
+public class DebugLoggerComponent
+{
 
     private final DebugLevel debugLevel;
     private final DebugTarget debugTarget;
 
-    public DebugLogger(DebugLevel debugLevel, DebugTarget debugTarget)
+    public DebugLoggerComponent(DebugLevel debugLevel, DebugTarget debugTarget)
     {
         this.debugLevel = debugLevel;
         this.debugTarget = debugTarget;
