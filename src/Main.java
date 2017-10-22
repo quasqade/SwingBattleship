@@ -1,7 +1,7 @@
-import Controller.ModelListener;
-import Controller.ViewListener;
-import View.View;
-import Model.Game;
+import controller.ModelListener;
+import controller.ViewListener;
+import view.View;
+import model.Model;
 
 
 public class Main {
@@ -12,11 +12,12 @@ public class Main {
 		ModelListener modelListener = new ModelListener();
 		ViewListener viewListener = new ViewListener();
 
-		Game game = new Game();
-		View view = new View();
+		Model model = new Model(viewListener);
+		View view = new View(modelListener);
 
-		modelListener.registerObserver(viewListener);
-		viewListener.registerObserver(modelListener);
+		modelListener.setModel(model);
+		viewListener.setView(view);
+
 
 
     }

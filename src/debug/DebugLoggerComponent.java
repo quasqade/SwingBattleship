@@ -20,7 +20,7 @@ public class DebugLoggerComponent
 
        if (dbgVerbosity>msgVerbosity)
        {
-           outputToTarget(msg.message);
+           outputToTarget(msg.message + "       VERBOSITY: " + msg.level.name());
        }
     }
 
