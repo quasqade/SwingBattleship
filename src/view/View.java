@@ -4,6 +4,8 @@ import controller.ModelListener;
 import debug.Logger;
 import debug.DebugMessage;
 import debug.VerbosityLevel;
+import event.view.ViewEvent;
+import event.view.ViewEventType;
 
 import javax.swing.*;
 
@@ -36,4 +38,10 @@ public class View
 			}
 		});
 	}
+
+	public void startGame()
+	{
+		modelListener.handleEvent(new ViewEvent(this, ViewEventType.GAME_START_REQUEST, "AI"));
+	}
+
 }

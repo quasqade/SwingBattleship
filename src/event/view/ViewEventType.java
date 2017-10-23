@@ -5,4 +5,5 @@ package event.view;
  */
 public enum ViewEventType
 {
+    GAME_START_REQUEST
 }

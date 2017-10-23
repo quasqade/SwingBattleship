@@ -18,6 +18,7 @@ public class Main {
 		modelListener.setModel(model);
 		viewListener.setView(view);
 
+		view.startGame();
 
 
     }
