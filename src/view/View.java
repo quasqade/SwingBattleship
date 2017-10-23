@@ -15,13 +15,14 @@ import javax.swing.*;
 public class View
 {
 	private GameFrame gameFrame;
+	private MenuFrame menuFrame;
 	private ModelListener modelListener;
 
 	public View(ModelListener modelListener)
 	{
 		this.modelListener=modelListener;
 
-		showGameFrame();
+		showMenuFrame();
 
 		Logger.push(new DebugMessage("Initialized view instance " + this.toString() + " on thread " + Thread.currentThread() + "; EDT: " + SwingUtilities.isEventDispatchThread(), VerbosityLevel.IMPORTANT));
 		Logger.push(new DebugMessage("Associated view instance " + this.toString() + " with listener " + modelListener.toString(), VerbosityLevel.GENERAL));
@@ -35,6 +36,18 @@ public class View
 			public void run()
 			{
 				gameFrame =new GameFrame("Battleship", modelListener);
+			}
+		});
+	}
+
+	private void showMenuFrame()
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				menuFrame =new MenuFrame("Menu", modelListener);
 			}
 		});
 	}
