@@ -31,12 +31,22 @@ public class ModelListener {
 
     public void handleEvent(EventObject ev) {
         if (ev instanceof ViewEvent) {
-            if (((ViewEvent) ev).type() == ViewEventType.GAME_START_REQUEST) {
-                if (((ViewEvent) ev).message().equals("AI"))
-                {
-                    model.initializeGame(new AIBoardProvider(), new AIEnemy());
-                }
+            switch(((ViewEvent) ev).type()) {
+                case GAME_START_REQUEST:
+                    if (((ViewEvent) ev).message().equals("AI"))
+                    {
+                        model.initializeGame(new AIBoardProvider(), new AIEnemy());
+                    }
+                    break;
+
+                case ABORT:
+                    if (((ViewEvent) ev).message().equals("Window cross"))
+                    {
+                        model.abort();
+                    }
+                    break;
             }
+
         }
     }
 

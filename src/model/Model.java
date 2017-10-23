@@ -32,4 +32,10 @@ public class Model
         provider.populateBoard(enemyBoard);
         enemyBoard.printBoard();
     }
+
+    //TODO: abort gracefully
+    public void abort()
+    {
+        System.exit(0);
+    }
 }
