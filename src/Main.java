@@ -3,6 +3,9 @@ import controller.ViewListener;
 import view.View;
 import model.Model;
 
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
+
 
 public class Main {
 
@@ -13,12 +16,22 @@ public class Main {
 		ViewListener viewListener = new ViewListener();
 
 		Model model = new Model(viewListener);
-		View view = new View(modelListener);
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+                @Override
+                public void run() {
+                    View view = new View(modelListener);
+					viewListener.setView(view);
+                }
+            });
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
 
 		modelListener.setModel(model);
-		viewListener.setView(view);
-
-		//view.startGame();
 
 
     }

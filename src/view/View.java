@@ -31,31 +31,12 @@ public class View
 
 	private void showGameFrame()
 	{
-		if (!SwingUtilities.isEventDispatchThread())
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				gameFrame =new GameFrame("Battleship", modelListener);
-			}
-		});
-		else
-		{
 			gameFrame =new GameFrame("Battleship", modelListener);
-		}
 	}
 
 	private void showMenuFrame()
 	{
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				menuFrame =new MenuFrame("Menu", modelListener);
-			}
-		});
+			menuFrame =new MenuFrame("Menu", modelListener);
 	}
 
 
