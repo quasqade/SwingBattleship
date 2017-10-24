@@ -6,6 +6,7 @@ import debug.DebugMessage;
 import debug.VerbosityLevel;
 import event.view.ViewEvent;
 import event.view.ViewEventType;
+import model.board.GameBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +39,12 @@ public class GameFrame extends JFrame {
         setVisible(true);
 
         Logger.push(new DebugMessage("Initialized game frame " + this.getTitle() + " with listener " + modelListener.toString() + " on thread " + Thread.currentThread() + "; EDT: " + SwingUtilities.isEventDispatchThread(), VerbosityLevel.IMPORTANT));
+    }
+
+
+    public void setEnemyBoard(GameBoard enemyBoard)
+    {
+        return;
     }
 
 

@@ -49,11 +49,10 @@ public MenuFrame(String name, ModelListener modelListener)
 
 private void layoutMainMenuComponents()
 {
+
 if (mainPanel==null)
 {
 	mainPanel=new JPanel();
-	add(mainPanel);
-}
 	mainPanel.setBorder(BorderFactory.createEtchedBorder());
 	mainPanel.setLayout(new GridBagLayout());
 
@@ -78,7 +77,7 @@ if (mainPanel==null)
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			modelListener.handleEvent(new ViewEvent(this, ViewEventType.GAME_START_REQUEST, "AI"));
+			layoutAIMenuComponents();
 		}
 	});
 	mainPanel.add(but, gbc);
@@ -116,10 +115,83 @@ if (mainPanel==null)
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-
+			if (JOptionPane.showConfirmDialog(MenuFrame.this, "Are you sure you want to quit?", "Really quit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION)
+			{
+				modelListener.handleEvent(new ViewEvent(this, ViewEventType.ABORT, "Exit button"));
+			}
 		}
 	});
 	mainPanel.add(but, gbc);
+}
+
+	//turn off other panels
+	if (AIPanel!=null)
+	{
+		remove(AIPanel);
+	}
+
+	//turn on this one
+	add(mainPanel);
+
+	//update frame
+	pack();
+	repaint();
+
+}
+
+private void layoutAIMenuComponents()
+{
+	if (AIPanel==null)
+	{
+	AIPanel = new JPanel();
+
+	AIPanel.setBorder(BorderFactory.createEtchedBorder());
+	AIPanel.setLayout(new GridBagLayout());
+
+	GridBagConstraints gbc = new GridBagConstraints();
+
+	gbc.gridx=0;
+	gbc.gridy=0;
+	gbc.fill=GridBagConstraints.BOTH;
+	gbc.insets=new Insets(10,10,10,10);
+
+	gbc.anchor=GridBagConstraints.LINE_START;
+
+	JButton but = new JButton("Start");
+	but.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			modelListener.handleEvent(new ViewEvent(this, ViewEventType.GAME_START_REQUEST, "AI"));
+		}
+	});
+	AIPanel.add(but,gbc);
+
+	gbc.gridy++;
+
+	but = new JButton("Back");
+	but.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			layoutMainMenuComponents();
+		}
+	});
+	AIPanel.add(but,gbc);
+
+	}
+
+	//turn off other panels
+	if (mainPanel!=null)
+	{
+		remove(mainPanel);
+	}
+
+	//turn on this one
+	add(AIPanel);
+
+	//update frame
+	pack();
+	repaint();
+
 }
 
 

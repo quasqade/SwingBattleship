@@ -1,5 +1,9 @@
 package controller;
 
+import event.model.ModelEvent;
+import event.view.ViewEvent;
+import model.Model;
+import model.board.GameBoard;
 import view.*;
 import debug.DebugMessage;
 import debug.Logger;
@@ -27,6 +31,25 @@ private View view;
 
 public void handleEvent(EventObject ev)
 {
+if (ev instanceof ModelEvent)
+{
+	switch (((ModelEvent) ev).type())
+	{
+		case GAME_CREATED:
+		{
+			switch (((ModelEvent) ev).message())
+			{
+				case "Game created":
+				{
+					GameBoard enemyBoard = ((Model)ev.getSource()).getEnemyBoard();
+					view.initializeGameFrame(enemyBoard);
 
+					break;
+				}
+			}
+		}
+			break;
+	}
+}
 }
 }

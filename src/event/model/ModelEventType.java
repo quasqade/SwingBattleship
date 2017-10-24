@@ -5,4 +5,5 @@ package event.model;
  */
 public enum ModelEventType
 {
+    GAME_CREATED
 }

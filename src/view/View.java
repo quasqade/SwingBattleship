@@ -6,6 +6,7 @@ import debug.DebugMessage;
 import debug.VerbosityLevel;
 import event.view.ViewEvent;
 import event.view.ViewEventType;
+import model.board.GameBoard;
 
 import javax.swing.*;
 
@@ -30,6 +31,7 @@ public class View
 
 	private void showGameFrame()
 	{
+		if (!SwingUtilities.isEventDispatchThread())
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
@@ -38,6 +40,10 @@ public class View
 				gameFrame =new GameFrame("Battleship", modelListener);
 			}
 		});
+		else
+		{
+			gameFrame =new GameFrame("Battleship", modelListener);
+		}
 	}
 
 	private void showMenuFrame()
@@ -52,9 +58,22 @@ public class View
 		});
 	}
 
-	public void startGame()
+
+	public void initializeGameFrame(GameBoard enemyBoard)
 	{
-		modelListener.handleEvent(new ViewEvent(this, ViewEventType.GAME_START_REQUEST, "AI"));
+		showGameFrame();
+		while (gameFrame==null)
+		{
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		menuFrame.dispose();
+		gameFrame.revalidate();
+		gameFrame.setEnemyBoard(enemyBoard);
 	}
+
 
 }

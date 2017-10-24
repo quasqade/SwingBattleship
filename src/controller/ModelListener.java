@@ -40,9 +40,14 @@ public class ModelListener {
                     break;
 
                 case ABORT:
-                    if (((ViewEvent) ev).message().equals("Window cross"))
+                    switch (((ViewEvent) ev).message())
                     {
-                        model.abort();
+                        case "Window cross":
+                            model.abort();
+                            break;
+                        case "Exit button":
+                            model.abort();
+                            break;
                     }
                     break;
             }
