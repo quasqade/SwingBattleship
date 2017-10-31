@@ -8,4 +8,6 @@ public interface BoardProvider {
 
     public void populateBoard(GameBoard board);
 
+    public void processHit(int x, int y);
+
 }

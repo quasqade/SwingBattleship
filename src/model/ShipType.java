@@ -10,5 +10,5 @@ public enum ShipType
 	CA,
 	SS,
 	DD,
-	SHELLED
+	SHELLED,
 }

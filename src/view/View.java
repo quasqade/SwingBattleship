@@ -54,6 +54,7 @@ public class View
 		menuFrame.dispose();
 		gameFrame.revalidate();
 		gameFrame.setEnemyBoard(enemyBoard);
+		gameFrame.debugConsoleLoop();
 	}
 
 

@@ -50,6 +50,17 @@ public class ModelListener {
                             break;
                     }
                     break;
+                case FIRE:
+                    {
+                        String command = ((ViewEvent) ev).message();
+                        String[] coords = command.split(" ");
+                        model.processHit(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+                    }
+                    break;
+                case UPDATE:
+                    {
+                        model.getEnemyBoard().printBoard();
+                    }
             }
 
         }

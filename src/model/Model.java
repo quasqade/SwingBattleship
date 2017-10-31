@@ -46,4 +46,8 @@ public class Model
     public GameBoard getEnemyBoard() {
         return enemyBoard;
     }
+
+    public void processHit(int x, int y) {
+        provider.processHit(x,y);
+    }
 }

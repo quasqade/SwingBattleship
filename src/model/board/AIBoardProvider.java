@@ -9,6 +9,8 @@ import model.ShipType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AIBoardProvider implements BoardProvider {
     private GameBoard board;
@@ -56,6 +58,59 @@ public class AIBoardProvider implements BoardProvider {
 
         removeShelling();
         board.updateBoard();
+    }
+
+    @Override
+    public void processHit(
+            int x,
+            int y) {
+        if (board.getBoardArray()[x][y])
+        {
+            Ship sunkShip=null; //we store sunk ship to avoid concurrent modification error
+            //If ship is potentially hit
+            //parse ship list to determine if previous shelling or ship, and then if sunk or not
+            for (Ship ship: board.getShips()
+                 ) {
+                for (int i = ship.x; i<ship.x+ship.sizeX; i++)
+                {
+                    for(int j = ship.y; j<ship.y+ship.sizeY; j++)
+                    {
+                        if (x==i && y==j)
+                        {
+                            if (ship.shipType == ShipType.SHELLED)
+                            {
+                                //Hit already shelled spot
+                                board.updateBoard();
+                            }
+                            else
+                            {
+                                //Hit a ship
+                                ship.shellSpot(i, j);
+                                if (ship.isSunk())
+                                {
+                                   sunkShip = ship;
+                                }
+                                board.updateBoard();
+                                Logger.push(new DebugMessage("Hit a ship at " + x + ", " + y, VerbosityLevel.GENERAL));
+                            }
+                        }
+                    }
+                }
+            }
+            if (sunkShip!=null)
+            {
+                Logger.push(new DebugMessage("Sunk a " + sunkShip.shipType.name(), VerbosityLevel.GENERAL));
+                shellAroundShip(sunkShip);
+                board.updateBoard();
+            }
+        }
+        else
+        {
+            //If ship is definitely not hit
+            board.getShips().add(new Ship(1,1,1,1, ShipType.SHELLED));
+            board.updateBoard();
+        }
+
     }
 
     private void removeShelling()
@@ -137,7 +192,7 @@ public class AIBoardProvider implements BoardProvider {
         return true;
     }
 
-    private void shellAroundShip(Ship ship)
+    private synchronized void shellAroundShip(Ship ship)
     {
         for (int i = ship.x-1; i<ship.x+ship.sizeX+1; i++)
         {
