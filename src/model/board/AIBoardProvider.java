@@ -89,11 +89,11 @@ public class AIBoardProvider implements BoardProvider {
 								//Hit a ship
 								if (ship.isSunk())
 								{
-
+									Logger.push(new DebugMessage("Stop hitting dead ships", VerbosityLevel.GENERAL));
 								}
 								else if (ship.isBurning(i, j))
 								{
-
+									Logger.push(new DebugMessage("Stop hitting the same spot", VerbosityLevel.GENERAL));
 								}
 								else
 								{
