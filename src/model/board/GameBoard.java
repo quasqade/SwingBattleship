@@ -6,10 +6,7 @@ import debug.VerbosityLevel;
 import model.Ship;
 import model.ShipType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * GameBoard in concept is dimensions, and list of ships and shelled spots (represented as 1x1 ship with special type)
@@ -17,7 +14,7 @@ import java.util.Random;
  */
 public class GameBoard {
     private int x, y;
-    private List<Ship> ships;
+    private Set<Ship> ships;
     private boolean[][] boardArray;
 
     public GameBoard(
@@ -141,11 +138,11 @@ public class GameBoard {
         this.y = y;
     }
 
-    public List<Ship> getShips() {
+    public Set<Ship> getShips() {
         return ships;
     }
 
-    public void setShips(List<Ship> ships) {
+    public void setShips(Set<Ship> ships) {
         this.ships = ships;
     }
 

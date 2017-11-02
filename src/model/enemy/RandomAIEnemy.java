@@ -8,6 +8,7 @@ import model.ShipType;
 import model.board.GameBoard;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class RandomAIEnemy extends GenericAIEnemy implements Enemy {
 	public void populateBoard(GameBoard board) {
 		this.board = board;
 
-		board.setShips(new ArrayList<>());
+		board.setShips(new HashSet<>());
 		for (int i = 0; i < 1; i++)
 		{
 			while (!placeShip(ShipType.CV))
