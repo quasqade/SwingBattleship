@@ -41,14 +41,8 @@ public class GameBoard {
         }
     }
 
-
-    public void printBoard() {
-        System.out.println();
-        //fancy header
-        String str = "GAME BOARD";
-        int size = (x + 1) * 4;
-        int strBeg = size / 2 - (str.length() + 2) / 2;
-
+    public String[][] getSymbolArray()
+    {
         //make a temporary string array for output
         String[][] output = new String[x][y];
         {
@@ -65,9 +59,9 @@ public class GameBoard {
                         sb.append(ship.shipType.toString());
                         if (ship.isSunk())
                         {
-                         sb.append("s");
-                         output[i][j] = sb.toString();
-                         continue;
+                            sb.append("s");
+                            output[i][j] = sb.toString();
+                            continue;
                         }
                         if (ship.isBurning(i, j))
                         {
@@ -80,6 +74,17 @@ public class GameBoard {
                 }
             }
         }
+        return output;
+    }
+
+    public void printBoard() {
+        System.out.println();
+        //fancy header
+        String str = "GAME BOARD";
+        int size = (x + 1) * 4;
+        int strBeg = size / 2 - (str.length() + 2) / 2;
+
+        String[][] symbolArray = getSymbolArray();
 
         for (int i = 0; i < size; i++) {
             System.out.printf("=");
@@ -111,8 +116,8 @@ public class GameBoard {
         for (int i = 0; i < x; i++) {
             System.out.printf("%2d |", i);
             for (int j = 0; j < y; j++) {
-                if (output[i][j]!=null)
-                    System.out.printf("%3s|", output[i][j]);
+                if (symbolArray[i][j]!=null)
+                    System.out.printf("%3s|", symbolArray[i][j]);
                 else {
                     System.out.printf("%3s|", " ");
                 }

@@ -1,6 +1,7 @@
 package view;
 
 import controller.ModelListener;
+import debug.DebugLevel;
 import debug.Logger;
 import debug.DebugMessage;
 import debug.VerbosityLevel;
@@ -25,6 +26,14 @@ import java.util.concurrent.Executors;
 public class GameFrame extends JFrame {
 
 	private ModelListener modelListener;
+
+	private JPanel mainPanel;
+	private JPanel friendlyBoardPanel;
+	private JPanel enemyBoardPanel;
+	private JPanel scorePanel;
+	private JPanel controlPanel;
+
+
     public GameFrame(String name, ModelListener modelListener)
     {
         super(name);
@@ -37,24 +46,74 @@ public class GameFrame extends JFrame {
             {
                 if (JOptionPane.showConfirmDialog(GameFrame.this, "Are you sure you want to quit?", "Really quit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION)
                 {
+                    Logger.push(new DebugMessage("Sending abort event", VerbosityLevel.GENERAL));
                     modelListener.handleEvent(new ViewEvent(this, ViewEventType.ABORT, "Window cross"));
                 }
             }
         });
         setMinimumSize(new Dimension(640, 320));
-        setLayout(new BorderLayout());
-        add(new JPanel(), BorderLayout.CENTER);
+        this.mainPanel = new JPanel();
+        add(mainPanel, BorderLayout.CENTER);
+        layoutComponents();
         pack();
+        repaint();
         setVisible(true);
         Logger.push(new DebugMessage("Initialized game frame " + this.getTitle() + " with listener " + modelListener.toString() + " on thread " + Thread.currentThread() + "; EDT: " + SwingUtilities.isEventDispatchThread(), VerbosityLevel.IMPORTANT));
+        modelListener.handleEvent(new ViewEvent(this, ViewEventType.BOARD_REQUEST, "Initial board request"));
     }
 
 
-    public void setEnemyBoard(GameBoard enemyBoard)
+
+    private void layoutComponents()
     {
-        return;
+        if (mainPanel==null)
+        {
+            Logger.push(new DebugMessage("Attempted to layout components before main panel is created! Something is very wrong",
+                                         VerbosityLevel.CRITICAL));
+            return;
+        }
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        mainPanel.setLayout(new GridBagLayout());
+
+        gbc.gridy=0;
+        gbc.gridx=0;
+        gbc.anchor=GridBagConstraints.FIRST_LINE_START;
+        gbc.fill=GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5,5,5,5);
+
+        //First column
+        gbc.weightx = 100;
+        friendlyBoardPanel = new JPanel();
+        layoutBoard(friendlyBoardPanel);
+        mainPanel.add(friendlyBoardPanel, gbc);
+
+        //Second column
+        gbc.gridx++;
+        gbc.weightx=30;
+        scorePanel = new JPanel();
+        layoutScore(scorePanel);
+        mainPanel.add(scorePanel, gbc);
+
+        //Third column
+        gbc.gridx++;
+        gbc.weightx=100;
+        enemyBoardPanel = new JPanel();
+        layoutBoard(enemyBoardPanel);
+        mainPanel.add(enemyBoardPanel, gbc);
+
     }
 
+    private void layoutBoard(JPanel boardPanel)
+    {
+        boardPanel.setBorder(BorderFactory.createEtchedBorder());
+        boardPanel.add(new JLabel("AAAAAAAAAA"));
+    }
+
+    private void layoutScore(JPanel scorePanel)
+    {
+
+    }
 
     public void debugConsoleLoop()
     {
@@ -108,4 +167,21 @@ public class GameFrame extends JFrame {
         }
     }
 
+    public void initializeBoard(GameBoard board)
+    {
+        if (enemyBoardPanel==null)
+        {
+            Logger.push(new DebugMessage("Attempted to initialize board before frame is initalized!", VerbosityLevel.CRITICAL));
+            return;
+        }
+
+
+        for(int i = 0; i < board.getX(); i++)
+        {
+            for (int j = 0; j < board.getY(); j++)
+            {
+                //TODO
+            }
+        }
+    }
 }

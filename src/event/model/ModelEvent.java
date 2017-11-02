@@ -8,6 +8,7 @@ import java.util.EventObject;
 public class ModelEvent extends EventObject {
     private ModelEventType prType;
     private String prMessage;
+    private Object additionalObject;
 
     /**
      * Constructs a prototypical Event.
@@ -23,9 +24,17 @@ public class ModelEvent extends EventObject {
             Object source,
             ModelEventType type,
             String message) {
+        this(source, type, message, null);
+    }
+
+    public ModelEvent(
+            Object source,
+            ModelEventType type,
+            String message, Object additionalObject) {
         this(source);
         this.prType = type;
         this.prMessage = message;
+        this.additionalObject = additionalObject;
     }
 
     public ModelEventType type() {
@@ -35,5 +44,10 @@ public class ModelEvent extends EventObject {
     public String message()
     {
         return prMessage;
+    }
+
+    public Object object()
+    {
+        return additionalObject;
     }
 }

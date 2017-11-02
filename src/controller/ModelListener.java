@@ -59,6 +59,10 @@ public class ModelListener {
                     {
                         model.getEnemyBoard().printBoard();
                     }
+                case BOARD_REQUEST:
+                    {
+                        model.processBoardRequest();
+                    }
             }
 
         }

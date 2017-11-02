@@ -8,5 +8,6 @@ public enum ViewEventType
     GAME_START_REQUEST,
     ABORT,
     FIRE,
-    UPDATE
+    UPDATE,
+    BOARD_REQUEST
 }

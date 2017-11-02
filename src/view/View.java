@@ -44,7 +44,7 @@ public class View
 	}
 
 
-	public void initializeGameFrame(GameBoard enemyBoard)
+	public void initializeGameFrame()
 	{
 		showGameFrame();
 		while (gameFrame==null)
@@ -57,8 +57,12 @@ public class View
 		}
 		menuFrame.dispose();
 		gameFrame.revalidate();
-		gameFrame.setEnemyBoard(enemyBoard);
-		gameFrame.debugConsoleLoop();
+		//gameFrame.debugConsoleLoop();
+	}
+
+	public void initializeBoard(GameBoard board)
+	{
+		gameFrame.initializeBoard(board);
 	}
 
 

@@ -43,14 +43,17 @@ if (ev instanceof ModelEvent)
 			{
 				case "Game created":
 				{
-					GameBoard enemyBoard = ((Model)ev.getSource()).getEnemyBoard();
-					view.initializeGameFrame(enemyBoard);
+					view.initializeGameFrame();
 
 					break;
 				}
 			}
-		}
 			break;
+		}
+		case BOARD:
+		{
+			view.initializeBoard((GameBoard) ((ModelEvent) ev).object());
+		}
 	}
 }
 }

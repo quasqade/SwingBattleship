@@ -46,4 +46,9 @@ public class Model
     public void processHit(int x, int y) {
         enemy.processHit(x, y);
     }
+
+    public void processBoardRequest()
+    {
+        viewListener.handleEvent(new ModelEvent(this, ModelEventType.BOARD, "Response to inital board request", enemyBoard));
+    }
 }
