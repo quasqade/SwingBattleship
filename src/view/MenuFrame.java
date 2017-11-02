@@ -14,6 +14,9 @@ import java.awt.event.*;
 /**
  * Created by user on 23-Oct-17.
  */
+
+/*A game menu*/
+
 public class MenuFrame extends JFrame
 {
 private ModelListener modelListener;

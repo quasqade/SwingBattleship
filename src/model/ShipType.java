@@ -10,5 +10,5 @@ public enum ShipType
 	CA,
 	SS,
 	DD,
-	SHELLED,
+	SHELLED, //A special type of ship that should always be 1x1 and not be counted in any scoring and gameplay
 }

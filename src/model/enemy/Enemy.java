@@ -1,9 +1,17 @@
 package model.enemy;
 
+import model.Ship;
 import model.board.GameBoard;
 
-public interface Enemy {
-    public void processTurn(GameBoard board);
+import java.util.List;
 
-    public GameBoard makeTurn();
+/*This interface should be implemented by Enemies, be it AI opponent, network opponent or otherwise*/
+
+public interface Enemy {
+
+    public void populateBoard(GameBoard board);
+
+    public void processHit(int x, int y);
+
+    public void makeHit();
 }

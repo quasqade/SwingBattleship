@@ -21,6 +21,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/*A main frame where gameplay happens*/
 public class GameFrame extends JFrame {
 
 	private ModelListener modelListener;

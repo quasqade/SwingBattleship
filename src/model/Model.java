@@ -6,10 +6,8 @@ import debug.DebugMessage;
 import debug.VerbosityLevel;
 import event.model.ModelEvent;
 import event.model.ModelEventType;
-import model.board.BoardProvider;
-import model.board.GameBoard;
 import model.enemy.Enemy;
-import sun.awt.ModalityEvent;
+import model.board.GameBoard;
 
 import javax.swing.*;
 
@@ -17,7 +15,6 @@ public class Model
 {
 	private ViewListener viewListener;
 	private GameBoard enemyBoard;
-	private BoardProvider provider;
 	private Enemy enemy;
 
     public Model(ViewListener viewListener)
@@ -27,12 +24,11 @@ public class Model
         Logger.push(new DebugMessage("Associated model instance " + this.toString() + " with listener " + viewListener.toString(), VerbosityLevel.GENERAL));
     }
 
-    public void initializeGame(BoardProvider provider, Enemy enemy)
+    public void initializeGame(Enemy enemy)
     {
-        this.provider=provider;
-        this.enemy=enemy;
+        this.enemy = enemy;
         enemyBoard = new GameBoard(10, 10);
-        provider.populateBoard(enemyBoard);
+        enemy.populateBoard(enemyBoard);
         enemyBoard.printBoard();
         viewListener.handleEvent(new ModelEvent(this, ModelEventType.GAME_CREATED, "Game created"));
     }
@@ -48,6 +44,6 @@ public class Model
     }
 
     public void processHit(int x, int y) {
-        provider.processHit(x,y);
+        enemy.processHit(x, y);
     }
 }

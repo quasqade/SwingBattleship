@@ -13,6 +13,10 @@ import javax.swing.*;
 /**
  * Created by user on 22-Oct-17.
  */
+
+/*View can technically be considered a part of controller alongside listeners,
+ *but can also be considered an compound representation of all true Views (Swing components).
+ *It provides methods to influence Swing components to listeners*/
 public class View
 {
 	private GameFrame gameFrame;

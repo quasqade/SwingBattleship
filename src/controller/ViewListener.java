@@ -14,6 +14,8 @@ import java.util.EventObject;
 /**
  * Created by user on 22-Oct-17.
  */
+
+/*A listener that attaches to a model, acting as a one-way model->view connection*/
 public class ViewListener
 {
 public View getView()

@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Ship consists of two coordinates, two dimensions, type (for scoring and future rendering) and coords of burning spots
+ * It provides methods to determine if a given point is burning and if whole ship is sunk
  */
 public class Ship
 {
