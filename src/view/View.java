@@ -6,6 +6,7 @@ import debug.DebugMessage;
 import debug.VerbosityLevel;
 import event.view.ViewEvent;
 import event.view.ViewEventType;
+import model.Cell;
 import model.board.GameBoard;
 
 import javax.swing.*;
@@ -65,5 +66,9 @@ public class View
 		gameFrame.initializeBoard(board);
 	}
 
+	public void drawHit(String symbol, Cell coordinates)
+	{
+		gameFrame.drawHit(symbol, coordinates);
+	}
 
 }

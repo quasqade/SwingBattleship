@@ -2,6 +2,7 @@ package controller;
 
 import event.model.ModelEvent;
 import event.view.ViewEvent;
+import model.Cell;
 import model.Model;
 import model.board.GameBoard;
 import view.*;
@@ -9,7 +10,10 @@ import debug.DebugMessage;
 import debug.Logger;
 import debug.VerbosityLevel;
 
+import javax.swing.*;
 import java.util.EventObject;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by user on 22-Oct-17.
@@ -43,7 +47,14 @@ if (ev instanceof ModelEvent)
 			{
 				case "Game created":
 				{
-					view.initializeGameFrame();
+					ExecutorService executor = Executors.newSingleThreadExecutor();
+					executor.execute(new Runnable() {
+						@Override
+						public void run() {
+							view.initializeGameFrame();
+						}
+					});
+
 
 					break;
 				}
@@ -53,6 +64,12 @@ if (ev instanceof ModelEvent)
 		case BOARD:
 		{
 			view.initializeBoard((GameBoard) ((ModelEvent) ev).object());
+			break;
+		}
+
+		case HIT_RESULT:
+		{
+			view.drawHit(((ModelEvent) ev).message(), (Cell)((ModelEvent) ev).object());
 		}
 	}
 }

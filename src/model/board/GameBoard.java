@@ -45,6 +45,13 @@ public class GameBoard {
     {
         //make a temporary string array for output
         String[][] output = new String[x][y];
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                output[i][j]=" ";
+            }
+        }
         {
             for (Ship ship : ships
                     ) {
@@ -73,6 +80,7 @@ public class GameBoard {
                     }
                 }
             }
+
         }
         return output;
     }

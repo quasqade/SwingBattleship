@@ -3,6 +3,7 @@ package model.enemy;
 import debug.DebugMessage;
 import debug.Logger;
 import debug.VerbosityLevel;
+import model.HitResult;
 import model.Ship;
 import model.ShipType;
 import model.board.GameBoard;
@@ -37,6 +38,7 @@ public abstract class GenericAIEnemy {
 							if (ship.shipType == ShipType.SHELLED)
 							{
 								//Hit already shelled spot
+								Logger.push(new DebugMessage("Hit already shelled spot at " + x +", " + y, VerbosityLevel.GENERAL));
 								board.updateBoard();
 							}
 							else
@@ -76,7 +78,7 @@ public abstract class GenericAIEnemy {
 		else
 		{
 			//If ship is definitely not hit
-			board.getShips().add(new Ship(1, 1, 1, 1, ShipType.SHELLED));
+			board.getShips().add(new Ship(x, y, 1, 1, ShipType.SHELLED));
 			board.updateBoard();
 		}
 

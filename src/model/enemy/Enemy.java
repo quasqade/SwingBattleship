@@ -1,5 +1,6 @@
 package model.enemy;
 
+import model.HitResult;
 import model.Ship;
 import model.board.GameBoard;
 

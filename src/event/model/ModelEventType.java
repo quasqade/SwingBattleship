@@ -6,5 +6,6 @@ package event.model;
 public enum ModelEventType
 {
     GAME_CREATED,
-    BOARD
+    BOARD,
+    HIT_RESULT
 }

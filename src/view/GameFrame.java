@@ -7,6 +7,7 @@ import debug.DebugMessage;
 import debug.VerbosityLevel;
 import event.view.ViewEvent;
 import event.view.ViewEventType;
+import model.Cell;
 import model.board.GameBoard;
 
 import javax.swing.*;
@@ -28,8 +29,8 @@ public class GameFrame extends JFrame {
 	private ModelListener modelListener;
 
 	private JPanel mainPanel;
-	private JPanel friendlyBoardPanel;
-	private JPanel enemyBoardPanel;
+	private BoardPanel friendlyBoardPanel;
+	private BoardPanel enemyBoardPanel;
 	private JPanel scorePanel;
 	private JPanel controlPanel;
 
@@ -59,7 +60,14 @@ public class GameFrame extends JFrame {
         repaint();
         setVisible(true);
         Logger.push(new DebugMessage("Initialized game frame " + this.getTitle() + " with listener " + modelListener.toString() + " on thread " + Thread.currentThread() + "; EDT: " + SwingUtilities.isEventDispatchThread(), VerbosityLevel.IMPORTANT));
-        modelListener.handleEvent(new ViewEvent(this, ViewEventType.BOARD_REQUEST, "Initial board request"));
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                modelListener.handleEvent(new ViewEvent(this, ViewEventType.BOARD_REQUEST, "Initial board request"));
+            }
+        });
     }
 
 
@@ -78,13 +86,15 @@ public class GameFrame extends JFrame {
 
         gbc.gridy=0;
         gbc.gridx=0;
+        gbc.weightx=100;
+        gbc.weighty=100;
         gbc.anchor=GridBagConstraints.FIRST_LINE_START;
         gbc.fill=GridBagConstraints.BOTH;
         gbc.insets = new Insets(5,5,5,5);
 
         //First column
         gbc.weightx = 100;
-        friendlyBoardPanel = new JPanel();
+        friendlyBoardPanel = new BoardPanel(modelListener);
         layoutBoard(friendlyBoardPanel);
         mainPanel.add(friendlyBoardPanel, gbc);
 
@@ -98,16 +108,16 @@ public class GameFrame extends JFrame {
         //Third column
         gbc.gridx++;
         gbc.weightx=100;
-        enemyBoardPanel = new JPanel();
+        enemyBoardPanel = new BoardPanel(modelListener);
         layoutBoard(enemyBoardPanel);
         mainPanel.add(enemyBoardPanel, gbc);
 
+
     }
 
-    private void layoutBoard(JPanel boardPanel)
+    private void layoutBoard(BoardPanel boardPanel)
     {
         boardPanel.setBorder(BorderFactory.createEtchedBorder());
-        boardPanel.add(new JLabel("AAAAAAAAAA"));
     }
 
     private void layoutScore(JPanel scorePanel)
@@ -169,19 +179,12 @@ public class GameFrame extends JFrame {
 
     public void initializeBoard(GameBoard board)
     {
-        if (enemyBoardPanel==null)
-        {
-            Logger.push(new DebugMessage("Attempted to initialize board before frame is initalized!", VerbosityLevel.CRITICAL));
-            return;
-        }
+        enemyBoardPanel.initializeBoard(board);
+        revalidate();
+    }
 
-
-        for(int i = 0; i < board.getX(); i++)
-        {
-            for (int j = 0; j < board.getY(); j++)
-            {
-                //TODO
-            }
-        }
+    public void drawHit(String symbol, Cell coordinates)
+    {
+        enemyBoardPanel.updateCell(symbol, coordinates);
     }
 }

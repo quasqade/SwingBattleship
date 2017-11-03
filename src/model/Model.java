@@ -10,6 +10,8 @@ import model.enemy.Enemy;
 import model.board.GameBoard;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Model
 {
@@ -44,11 +46,34 @@ public class Model
     }
 
     public void processHit(int x, int y) {
+        String[][] oldBoardArray = enemyBoard.getSymbolArray(); //this board represents last state of a board before update to be processed into list of HitResults to send over the network/eventbus
         enemy.processHit(x, y);
+        List<HitResult> results = getDiffBetweenBoards(enemyBoard.getSymbolArray(), oldBoardArray);
+        for (HitResult result: results
+             )
+        {
+            viewListener.handleEvent(new ModelEvent(this, ModelEventType.HIT_RESULT, result.result, result.coords));
+        }
     }
 
     public void processBoardRequest()
     {
         viewListener.handleEvent(new ModelEvent(this, ModelEventType.BOARD, "Response to inital board request", enemyBoard));
+    }
+
+    private List<HitResult> getDiffBetweenBoards(String[][] newBoard, String[][] oldBoard)
+    {
+        List<HitResult> output = new ArrayList<>();
+        for(int i = 0; i<newBoard.length; i++)
+        {
+            for (int j = 0; j < newBoard[0].length; j++)
+            {
+                if (!newBoard[i][j].equals(oldBoard[i][j]))
+                {
+                    output.add(new HitResult(newBoard[i][j], new Cell(i,j)));
+                }
+            }
+        }
+        return output;
     }
 }
