@@ -7,15 +7,13 @@ import model.Ship;
 import model.ShipType;
 import model.board.GameBoard;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
 
 /*This class represents a random AI enemy that places ships at random
 and engages in simple hunter-killer warfare, shelling randomly during hunt stage*/
-public class RandomAIEnemy extends GenericAIEnemy implements Enemy {
+public class RandomAIEnemy extends AbstractAIEnemy implements Enemy {
 
 
 	@Override

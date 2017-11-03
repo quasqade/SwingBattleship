@@ -14,7 +14,7 @@ import java.util.List;
 /*This class represents abstract AI Enemy that should be extended
  *to create AI enemies of different skill level*/
 
-public abstract class GenericAIEnemy {
+public abstract class AbstractAIEnemy {
 	public GameBoard board;
 
 
