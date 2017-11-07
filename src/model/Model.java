@@ -11,6 +11,7 @@ import model.board.GameBoard;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Model
@@ -54,11 +55,21 @@ public class Model
         {
             viewListener.handleEvent(new ModelEvent(this, ModelEventType.HIT_RESULT, result.result, result.coords));
         }
+        if (results.size()==1)
+        {
+            if (results.get(0).result.equals(" . "))
+            {
+                enemy.makeHit();
+            }
+        }
     }
 
     public void processBoardRequest()
     {
-        viewListener.handleEvent(new ModelEvent(this, ModelEventType.BOARD, "Response to inital board request", enemyBoard));
+        GameBoard obscuredBoard = new GameBoard(enemyBoard);
+        obscuredBoard.setShips(new HashSet<>());
+        obscuredBoard.updateBoard();
+        viewListener.handleEvent(new ModelEvent(this, ModelEventType.BOARD, "Response to initial board request", obscuredBoard));
     }
 
     private List<HitResult> getDiffBetweenBoards(String[][] newBoard, String[][] oldBoard)
@@ -70,7 +81,10 @@ public class Model
             {
                 if (!newBoard[i][j].equals(oldBoard[i][j]))
                 {
-                    output.add(new HitResult(newBoard[i][j], new Cell(i,j)));
+                    String result = newBoard[i][j];
+                    if (result.charAt(2) == 'f')
+                        result = "x";
+                    output.add(new HitResult(result, new Cell(i,j)));
                 }
             }
         }

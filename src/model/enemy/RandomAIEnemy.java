@@ -66,7 +66,7 @@ public class RandomAIEnemy extends AbstractAIEnemy implements Enemy {
 
 	@Override
 	public void makeHit() {
-
+		Logger.push(new DebugMessage("Enemy turn", VerbosityLevel.GENERAL));
 	}
 
 

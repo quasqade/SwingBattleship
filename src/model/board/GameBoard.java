@@ -25,6 +25,15 @@ public class GameBoard {
         boardArray = new boolean[y][x];
     }
 
+    public GameBoard(GameBoard board)
+    {
+        this.x = board.getX();
+        this.y = board.getY();
+        this.ships = new HashSet<Ship>(board.ships);
+        this.boardArray = new boolean[y][x];
+        boardArray = board.boardArray.clone();
+        updateBoard();
+    }
 
     public void updateBoard() {
 
