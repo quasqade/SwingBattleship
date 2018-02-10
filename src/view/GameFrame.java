@@ -1,7 +1,6 @@
 package view;
 
 import controller.ModelListener;
-import debug.DebugLevel;
 import debug.Logger;
 import debug.DebugMessage;
 import debug.VerbosityLevel;
@@ -10,16 +9,16 @@ import event.view.ViewEventType;
 import model.Cell;
 import model.board.GameBoard;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Scanner;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,6 +32,9 @@ public class GameFrame extends JFrame {
 	private BoardPanel enemyBoardPanel;
 	private JPanel scorePanel;
 	private JPanel controlPanel;
+	private Point drawingPoint; //this is a current position of a hovering panel in case of placing
+    private JPanel mousePanel; //this is a hovering panel attached to cursor
+    private final JPanel glass = (JPanel) getGlassPane(); //a glass pane used for mouse rendering
 
 
     public GameFrame(String name, ModelListener modelListener)
@@ -55,7 +57,25 @@ public class GameFrame extends JFrame {
         setMinimumSize(new Dimension(640, 320));
         this.mainPanel = new JPanel();
         add(mainPanel, BorderLayout.CENTER);
+
         layoutComponents();
+
+        mousePanel = new JPanel();
+        mousePanel.add(new JLabel("", new ImageIcon("resources/menulogo.png"), JLabel.CENTER));
+        mousePanel.setMaximumSize(new Dimension(50,50));
+        glass.add(mousePanel);
+        glass.setVisible(true);
+        //attaching mouse listeners to facilitate ship placing
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                mousePanel.setLocation(e.getPoint());
+                repaint();
+            }
+        });
+
+
         pack();
         repaint();
         setVisible(true);
@@ -69,8 +89,6 @@ public class GameFrame extends JFrame {
             }
         });
     }
-
-
 
     private void layoutComponents()
     {
@@ -101,9 +119,9 @@ public class GameFrame extends JFrame {
         //Second column
         gbc.gridx++;
         gbc.weightx=30;
-        scorePanel = new JPanel();
-        layoutScore(scorePanel);
-        mainPanel.add(scorePanel, gbc);
+        controlPanel = new JPanel();
+        layoutControl(controlPanel);
+        mainPanel.add(controlPanel, gbc);
 
         //Third column
         gbc.gridx++;
@@ -120,9 +138,9 @@ public class GameFrame extends JFrame {
         boardPanel.setBorder(BorderFactory.createEtchedBorder());
     }
 
-    private void layoutScore(JPanel scorePanel)
+    private void layoutControl(JPanel controlPanel)
     {
-
+        controlPanel.setLayout(new FlowLayout());
     }
 
     public void debugConsoleLoop()

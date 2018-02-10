@@ -47,6 +47,8 @@ public class Model
     }
 
     public void processHit(int x, int y) {
+        //TODO determine why first hit sometimes comes before board is properly updated, requiring the following line
+        enemyBoard.updateBoard();
         String[][] oldBoardArray = enemyBoard.getSymbolArray(); //this board represents last state of a board before update to be processed into list of HitResults to send over the network/eventbus
         enemy.processHit(x, y);
         List<HitResult> results = getDiffBetweenBoards(enemyBoard.getSymbolArray(), oldBoardArray);

@@ -10,6 +10,7 @@ import model.Cell;
 import model.board.GameBoard;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
