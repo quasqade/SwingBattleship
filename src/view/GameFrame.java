@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
 	private BoardPanel friendlyBoardPanel;
 	private BoardPanel enemyBoardPanel;
 	private JPanel scorePanel;
-	private JPanel controlPanel;
+	private ControlPanel controlPanel;
 	private Point drawingPoint; //this is a current position of a hovering panel in case of placing
     private JPanel mousePanel; //this is a hovering panel attached to cursor
     private final JPanel glass = (JPanel) getGlassPane(); //a glass pane used for mouse rendering
@@ -70,7 +70,7 @@ public class GameFrame extends JFrame {
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-                mousePanel.setLocation(e.getPoint());
+                mousePanel.setLocation(new Point(e.getPoint()));
                 repaint();
             }
         });
@@ -119,7 +119,7 @@ public class GameFrame extends JFrame {
         //Second column
         gbc.gridx++;
         gbc.weightx=30;
-        controlPanel = new JPanel();
+        controlPanel = new ControlPanel();
         layoutControl(controlPanel);
         mainPanel.add(controlPanel, gbc);
 
