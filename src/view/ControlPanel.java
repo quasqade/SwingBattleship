@@ -13,21 +13,21 @@ import java.awt.event.ActionListener;
 public class ControlPanel extends JPanel {
 	public ControlPanel()
 	{
-		super();
-		setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
+		JPanel panel = new JPanel(); //nested panel is necessary, otherwise buttons are only placed horizontally
+		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx=0;
 		gbc.gridy=0;
-		gbc.weightx=100;
-		gbc.weighty=100;
-		gbc.fill=GridBagConstraints.BOTH;
-		gbc.anchor=GridBagConstraints.FIRST_LINE_START;
+		gbc.fill=GridBagConstraints.HORIZONTAL;
 		gbc.insets=new Insets(5,5,5,5);
 		for (ShipType type: ShipType.values()
 			 )
 		{
+			if (type.equals(ShipType.SHELLED))
+				continue;
 			JButton but = new JButton(type.toString());
-			add(but, gbc);
+			panel.add(but, gbc);
 			but.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -36,6 +36,7 @@ public class ControlPanel extends JPanel {
 			});
 			gbc.gridy++;
 		}
+		add(panel, BorderLayout.CENTER);
 	}
 
 	private void processPlacingClick(ShipType type)

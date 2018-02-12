@@ -64,7 +64,7 @@ public class GameFrame extends JFrame {
         mousePanel.add(new JLabel("", new ImageIcon("resources/menulogo.png"), JLabel.CENTER));
         mousePanel.setMaximumSize(new Dimension(50,50));
         glass.add(mousePanel);
-        glass.setVisible(true);
+        glass.setVisible(false);
         //attaching mouse listeners to facilitate ship placing
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -118,7 +118,7 @@ public class GameFrame extends JFrame {
 
         //Second column
         gbc.gridx++;
-        gbc.weightx=30;
+        gbc.weightx=1;
         controlPanel = new ControlPanel();
         layoutControl(controlPanel);
         mainPanel.add(controlPanel, gbc);
@@ -198,6 +198,7 @@ public class GameFrame extends JFrame {
     public void initializeBoard(GameBoard board)
     {
         enemyBoardPanel.initializeBoard(board);
+        friendlyBoardPanel.initializeBoard(board);
         revalidate();
     }
 
