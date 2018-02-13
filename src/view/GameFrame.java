@@ -7,6 +7,7 @@ import debug.VerbosityLevel;
 import event.view.ViewEvent;
 import event.view.ViewEventType;
 import model.Cell;
+import model.ShipType;
 import model.board.GameBoard;
 
 import javax.imageio.ImageIO;
@@ -59,23 +60,6 @@ public class GameFrame extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         layoutComponents();
-
-        mousePanel = new JPanel();
-        mousePanel.add(new JLabel("", new ImageIcon("resources/menulogo.png"), JLabel.CENTER));
-        mousePanel.setMaximumSize(new Dimension(50,50));
-        glass.add(mousePanel);
-        glass.setVisible(false);
-        //attaching mouse listeners to facilitate ship placing
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-                mousePanel.setLocation(new Point(e.getPoint()));
-                repaint();
-            }
-        });
-
-
         pack();
         repaint();
         setVisible(true);
@@ -118,8 +102,8 @@ public class GameFrame extends JFrame {
 
         //Second column
         gbc.gridx++;
-        gbc.weightx=1;
-        controlPanel = new ControlPanel();
+        gbc.weightx=10;
+        controlPanel = new ControlPanel(this);
         layoutControl(controlPanel);
         mainPanel.add(controlPanel, gbc);
 
@@ -205,5 +189,83 @@ public class GameFrame extends JFrame {
     public void drawHit(String symbol, Cell coordinates)
     {
         enemyBoardPanel.updateCell(symbol, coordinates);
+    }
+
+    public void setHoveringShip(ShipType type)
+    {
+        mousePanel = new JPanel();
+        mousePanel.setLayout(new FlowLayout());
+
+        switch (type)
+        {
+            case CV:
+                for (int i = 0; i < 4; i++)
+                {
+                    JPanel shipPanel = new JPanel();
+                    shipPanel.setPreferredSize(new Dimension(enemyBoardPanel.getComponents()[0].getSize()));
+                    shipPanel.setBorder(BorderFactory.createEtchedBorder());
+                    shipPanel.add(new JLabel(type.toString()));
+                    mousePanel.add(shipPanel);
+                }
+                break;
+            case BB:
+                for (int i = 0; i < 3; i++)
+                {
+                    JPanel shipPanel = new JPanel();
+                    shipPanel.setPreferredSize(new Dimension(enemyBoardPanel.getComponents()[0].getSize()));
+                    shipPanel.setBorder(BorderFactory.createEtchedBorder());
+                    shipPanel.add(new JLabel(type.toString()));
+                    mousePanel.add(shipPanel);
+                }
+                break;
+            case CA:
+                for (int i = 0; i < 2; i++)
+                {
+                    JPanel shipPanel = new JPanel();
+                    shipPanel.setMinimumSize(new Dimension(enemyBoardPanel.getComponents()[0].getSize()));
+                    shipPanel.setBorder(BorderFactory.createEtchedBorder());
+                    shipPanel.add(new JLabel(type.toString()));
+                    mousePanel.add(shipPanel);
+                }
+                break;
+            case SS:
+                for (int i = 0; i < 2; i++)
+                {
+                    JPanel shipPanel = new JPanel();
+                    shipPanel.setPreferredSize(new Dimension(enemyBoardPanel.getComponents()[0].getSize()));
+                    shipPanel.setBorder(BorderFactory.createEtchedBorder());
+                    shipPanel.add(new JLabel(type.toString()));
+                    mousePanel.add(shipPanel);
+                }
+                break;
+            case DD:
+                for (int i = 0; i < 1; i++)
+                {
+                    JPanel shipPanel = new JPanel();
+                    shipPanel.setPreferredSize(new Dimension(enemyBoardPanel.getComponents()[0].getSize()));
+                    shipPanel.setBorder(BorderFactory.createEtchedBorder());
+                    shipPanel.add(new JLabel(type.toString()));
+                    mousePanel.add(shipPanel);
+                }
+                break;
+            case SHELLED:
+                break;
+        }
+
+        ImageIcon icon = new ImageIcon(ComponentPainter.paintComponent(mousePanel));
+        mousePanel = new JPanel();
+        mousePanel.add(new JLabel("", icon, JLabel.CENTER));
+        glass.add(mousePanel);
+        glass.setVisible(true);
+
+        //attaching mouse listeners to facilitate ship placing
+        glass.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                mousePanel.setLocation(new Point(e.getPoint()));
+                repaint();
+            }
+        });
     }
 }

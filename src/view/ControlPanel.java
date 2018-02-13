@@ -11,16 +11,19 @@ import java.awt.event.ActionListener;
  * Created by user on 11-Feb-18.
  */
 public class ControlPanel extends JPanel {
-	public ControlPanel()
+	private GameFrame parent;
+
+	public ControlPanel(GameFrame parent)
 	{
+		this.parent=parent;
 		setLayout(new BorderLayout());
 		JPanel panel = new JPanel(); //nested panel is necessary, otherwise buttons are only placed horizontally
+		panel.setBorder(BorderFactory.createTitledBorder("Place ship"));
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx=0;
 		gbc.gridy=0;
-		gbc.fill=GridBagConstraints.HORIZONTAL;
-		gbc.insets=new Insets(5,5,5,5);
+		gbc.fill=GridBagConstraints.BOTH;
 		for (ShipType type: ShipType.values()
 			 )
 		{
@@ -31,7 +34,7 @@ public class ControlPanel extends JPanel {
 			but.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					processPlacingClick(type);
+					parent.setHoveringShip(type);
 				}
 			});
 			gbc.gridy++;
@@ -39,8 +42,4 @@ public class ControlPanel extends JPanel {
 		add(panel, BorderLayout.CENTER);
 	}
 
-	private void processPlacingClick(ShipType type)
-	{
-
-	}
 }
